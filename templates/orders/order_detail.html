@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Order #{{ order.order_number }} - TrainEats{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">Order #{{ order.order_number }}</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5>Order Information</h5>
+                            <p><strong>Status:</strong> 
+                                <span class="badge {% if order.status == 'DELIVERED' %}bg-success{% elif order.status == 'CANCELLED' %}bg-danger{% else %}bg-primary{% endif %}">
+                                    {{ order.get_status_display }}
+                                </span>
+                            </p>
+                            <p><strong>Order Date:</strong> {{ order.created_at|date:"F j, Y, g:i a" }}</p>
+                            <p><strong>Total Amount:</strong> ₹{{ order.total_amount }}</p>
+                            <p><strong>Payment Status:</strong> {{ order.get_payment_status_display }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Delivery Information</h5>
+                            <p><strong>Train:</strong> {{ order.train.name }}</p>
+                            <p><strong>Delivery Station:</strong> {{ order.delivery_station.name }}</p>
+                            <p><strong>Platform:</strong> {{ order.delivery_platform.name }}</p>
+                            <p><strong>Delivery Time:</strong> {{ order.delivery_time|date:"F j, Y, g:i a" }}</p>
+                        </div>
+                    </div>
+
+                    <h5>Order Items</h5>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in order.items.all %}
+                                <tr>
+                                    <td>{{ item.food_item.name }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>₹{{ item.price }}</td>
+                                    <td>₹{{ item.subtotal }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                                    <td><strong>₹{{ order.total_amount }}</strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    {% if order.special_instructions %}
+                    <div class="mt-4">
+                        <h5>Special Instructions</h5>
+                        <p>{{ order.special_instructions }}</p>
+                    </div>
+                    {% endif %}
+
+                    <div class="mt-4">
+                        <a href="{% url 'orders' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to Orders
+                        </a>
+                        {% if order.status == 'PENDING' %}
+                            <a href="{% url 'cancel_order' order.order_number %}" class="btn btn-danger">
+                                <i class="fas fa-times"></i> Cancel Order
+                            </a>
+                        {% endif %}
+                        {% if order.status == 'DELIVERED' %}
+                            <a href="{% url 'add_review' order.order_number %}" class="btn btn-primary">
+                                <i class="fas fa-star"></i> Add Review
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

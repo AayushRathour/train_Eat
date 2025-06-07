@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Your Shopping Cart{% endblock %}
+
+{% block extra_css %}
+<style>
+    @media (max-width: 767px) {
+        .responsive-table thead {
+            display: none;
+        }
+        .responsive-table tbody, .responsive-table tr, .responsive-table td {
+            display: block;
+            width: 100%;
+        }
+        .responsive-table tr {
+            margin-bottom: 1rem;
+            border: 1px solid #dee2e6;
+            border-radius: .375rem;
+            padding: 1rem;
+        }
+        .responsive-table td {
+            text-align: right;
+            padding-left: 50%;
+            position: relative;
+            border: none;
+            padding-bottom: 0.5rem;
+            padding-top: 0.5rem;
+        }
+        .responsive-table td::before {
+            content: attr(data-label);
+            position: absolute;
+            left: .75rem;
+            width: 45%;
+            text-align: left;
+            font-weight: bold;
+        }
+        .responsive-table td:last-child {
+            padding-bottom: 1rem;
+        }
+        .responsive-table .form-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .responsive-table .form-container form {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Your Shopping Cart</h1>
+    {% if not cart.items.all %}
+        <div class="text-center">
+            <p>Your cart is empty.</p>
+            <a href="{% url 'vendors:food_list' %}" class="btn btn-primary">Continue Shopping</a>
+        </div>
+    {% else %}
+        <div class="table-responsive">
+            <table class="table table-hover responsive-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Product</th>
+                        <th scope="col">Price</th>
+                        <th scope="col" style="width: 150px;">Quantity</th>
+                        <th scope="col">Subtotal</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart.items.all %}
+                    <tr>
+                        <td data-label="Product">{{ item.food_item.name }}</td>
+                        <td data-label="Price">₹{{ item.food_item.price }}</td>
+                        <td data-label="Quantity">
+                            <div class="form-container">
+                                <form action="{% url 'orders:update_cart_item' item.id %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <input type="number" name="quantity" class="form-control form-control-sm text-center quantity-input" value="{{ item.quantity }}" min="1" data-item-id="{{ item.id }}" data-url="{% url 'orders:update_cart_item' item.id %}">
+                                </form>
+                            </div>
+                        </td>
+                        <td data-label="Subtotal">₹{{ item.subtotal }}</td>
+                        <td data-label="Action">
+                            <a href="{% url 'orders:remove_from_cart' item.id %}" class="btn btn-danger btn-sm">Remove</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="text-end">
+            <h3>Total: ₹{{ cart.get_total }}</h3>
+            <a href="{% url 'orders:checkout' %}" class="btn btn-success">Proceed to Checkout</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %} 

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Track Your Order{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h1 class="card-title text-center mb-4">Track Your Order</h1>
+                    <p class="text-center text-muted mb-4">Enter your order details below to see its status.</p>
+                    
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-search me-2"></i>Track Now
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            {% if order %}
+            <div class="card shadow-sm mt-5">
+                <div class="card-header bg-success text-white">
+                    <h2 class="h4 mb-0">Order Details</h2>
+                </div>
+                <div class="card-body">
+                    <p><strong>Order Number:</strong> {{ order.order_number }}</p>
+                    <p><strong>Total Amount:</strong> ₹{{ order.total_amount }}</p>
+                    <p><strong>Order Date:</strong> {{ order.created_at|date:"F j, Y, g:i a" }}</p>
+                    <p><strong>Delivery Address:</strong> {{ order.delivery_station.name }}</p>
+                    <hr>
+                    <h4 class="mb-3">Order Status: 
+                        <span class="badge bg-info">{{ order.get_status_display }}</span>
+                    </h4>
+                    
+                    <h5 class="mt-4">Items in your order:</h5>
+                    <ul class="list-group">
+                        {% for item in order.items.all %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>{{ item.quantity }}x {{ item.food_item.name }}</span>
+                                <span>₹{{ item.subtotal }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

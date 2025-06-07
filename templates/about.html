@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us - TrainEats{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h1 class="card-title mb-4">About TrainEats</h1>
+                    
+                    <div class="mb-4">
+                        <h2>Our Mission</h2>
+                        <p>TrainEats is dedicated to revolutionizing the way travelers experience food during their train journeys. We connect hungry passengers with quality food vendors at railway stations, ensuring a convenient and satisfying dining experience.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h2>What We Do</h2>
+                        <ul class="list-unstyled">
+                            <li class="mb-3">
+                                <i class="fas fa-utensils text-primary me-2"></i>
+                                <strong>Food Ordering:</strong> Pre-order your meals for pickup at your station
+                            </li>
+                            <li class="mb-3">
+                                <i class="fas fa-store text-primary me-2"></i>
+                                <strong>Vendor Network:</strong> Partner with verified food vendors at railway stations
+                            </li>
+                            <li class="mb-3">
+                                <i class="fas fa-train text-primary me-2"></i>
+                                <strong>Train Integration:</strong> Track your train's arrival for timely food pickup
+                            </li>
+                            <li class="mb-3">
+                                <i class="fas fa-star text-primary me-2"></i>
+                                <strong>Quality Assurance:</strong> Maintain high standards for food quality and service
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h2>Why Choose Us</h2>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <i class="fas fa-clock text-primary me-2"></i>
+                                            Convenience
+                                        </h5>
+                                        <p class="card-text">Order food in advance and pick it up when your train arrives.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <i class="fas fa-shield-alt text-primary me-2"></i>
+                                            Quality
+                                        </h5>
+                                        <p class="card-text">All our vendors are verified and maintain high hygiene standards.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <i class="fas fa-wallet text-primary me-2"></i>
+                                            Value
+                                        </h5>
+                                        <p class="card-text">Get the best prices and quality food at railway stations.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <i class="fas fa-headset text-primary me-2"></i>
+                                            Support
+                                        </h5>
+                                        <p class="card-text">24/7 customer support for all your food ordering needs.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="{% url 'home' %}" class="btn btn-primary">
+                            <i class="fas fa-home me-2"></i>Back to Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

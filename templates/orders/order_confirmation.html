@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Confirmation{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card text-center shadow-lg">
+                <div class="card-header bg-success text-white">
+                    <h2 class="mb-0">Order Placed Successfully!</h2>
+                </div>
+                <div class="card-body">
+                    <i class="fas fa-check-circle fa-5x text-success mb-4"></i>
+                    <h3 class="card-title">Thank you for your order!</h3>
+                    <p class="card-text">Your order number is <strong>#{{ order.order_number }}</strong>.</p>
+                    <p>We have received your order and are getting it ready for you. You can track the status of your order from your profile.</p>
+                    <div class="mt-4">
+                        <a href="{% url 'accounts:profile' %}" class="btn btn-primary">View My Orders</a>
+                        <a href="{% url 'vendors:food_list' %}" class="btn btn-outline-secondary">Continue Shopping</a>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    An email confirmation has been sent to {{ request.user.email }}.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

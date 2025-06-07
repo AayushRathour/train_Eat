@@ -1,0 +1,99 @@
+/* 
+    TrainEats Custom Stylesheet
+    ---
+    - Body and General Typography
+    - Navbar Theme
+    - Button Themes
+    - Card Enhancements
+    - Footer Theme
+*/
+
+/* Body and General Typography */
+body {
+    background-color: #f4f7f6; /* A soft, off-white background */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Navbar Theme */
+.navbar-custom {
+    background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.navbar-custom .nav-link:hover {
+    color: #fff;
+}
+
+/* Adding an active class for the current page link if needed */
+.navbar-custom .nav-link.active {
+    font-weight: bold;
+    color: #fff;
+}
+
+/* Ensure dropdown menu is visible and styled correctly */
+.navbar-custom .dropdown-menu {
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.1);
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15);
+}
+
+.navbar-custom .dropdown-item {
+    color: #333;
+}
+
+.navbar-custom .dropdown-item:hover {
+    background-color: #f4f7f6;
+    color: #182848;
+}
+
+/* Button Themes */
+.btn-primary {
+    background-color: #4b6cb7;
+    border-color: #4b6cb7;
+}
+
+.btn-primary:hover {
+    background-color: #182848;
+    border-color: #182848;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+
+/* Card Enhancements */
+.card {
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.card:hover {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.15);
+    transform: translateY(-5px);
+}
+
+/* Footer Theme */
+.footer-custom {
+    background-color: #182848;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-custom a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+}
+
+.footer-custom a:hover {
+    color: #fff;
+    text-decoration: underline;
+} 

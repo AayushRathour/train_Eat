@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Welcome to TrainEats{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="display-4 fw-bold mb-4">🍽️ Order Food While You Travel 🚆</h1>
+                <p class="lead mb-4">Enjoy delicious meals delivered right to your train seat. No more hunger pangs during your journey! Choose from hundreds of options across thousands of stations.</p>
+                <div class="d-grid gap-2 d-md-flex">
+                    <a href="{% url 'vendors:food_list' %}" class="btn btn-primary btn-lg px-4 me-md-2">Order Now <i class="fas fa-arrow-right"></i></a>
+                    <a href="#pnr" class="btn btn-outline-secondary btn-lg px-4">Order with PNR <i class="fas fa-ticket-alt"></i></a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="text-center">
+                    <i class="fas fa-train fa-6x text-primary"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Popular Food Items -->
+<section class="popular-food-section py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col">
+                <h2>Popular Food Items</h2>
+                <p class="lead">Check out some of our most popular dishes!</p>
+                <a href="{% url 'vendors:food_list' %}" class="btn btn-outline-primary">View Full Menu</a>
+            </div>
+        </div>
+        <div class="row">
+            {% for food in foods|slice:":6" %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card h-100 food-card">
+                    <a href="{% url 'vendors:food_detail' food.id %}">
+                        {% if food.image %}
+                        <img src="{{ food.image.url }}" class="card-img-top" alt="{{ food.name }}">
+                        {% endif %}
+                    </a>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ food.name }}</h5>
+                        <p class="card-text">{{ food.description|truncatewords:10 }}</p>
+                        <p class="card-text"><strong>Price:</strong> ₹{{ food.price }}</p>
+                        <div class="mt-auto">
+                            <a href="{% url 'orders:add_to_cart' food.id %}" class="btn btn-primary btn-sm">Add to Cart</a>
+                            <a href="{% url 'orders:add_and_checkout' food.id %}" class="btn btn-success btn-sm">Order Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'vendors:food_list' %}" class="btn btn-outline-primary btn-lg">View All Foods</a>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Why Choose TrainEats?</h2>
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-3 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-bolt fa-3x text-primary mb-3"></i>
+                        <h3 class="h5">Lightning Fast Delivery</h3>
+                        <p class="text-muted">Your food arrives hot and fresh at your seat before you even get hungry.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-utensils fa-3x text-primary mb-3"></i>
+                        <h3 class="h5">Diverse Cuisines</h3>
+                        <p class="text-muted">From local specialties to international favorites, hundreds of options.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
+                        <h3 class="h5">Safe & Hygienic</h3>
+                        <p class="text-muted">All meals prepared in certified kitchens with strict hygiene protocols.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-wallet fa-3x text-primary mb-3"></i>
+                        <h3 class="h5">Easy Payments</h3>
+                        <p class="text-muted">Pay online with multiple secure options. Instant refunds for cancellations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="how-it-works py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">How TrainEats Works</h2>
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-3 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">1</div>
+                        <i class="fas fa-train fa-2x text-primary mb-3"></i>
+                        <h3 class="h5">Enter Journey Details</h3>
+                        <p class="text-muted">Provide your PNR number or select your train and journey date.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">2</div>
+                        <i class="fas fa-utensil-spoon fa-2x text-primary mb-3"></i>
+                        <h3 class="h5">Choose Your Meal</h3>
+                        <p class="text-muted">Browse food options from restaurants near your upcoming stations.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">3</div>
+                        <i class="fas fa-credit-card fa-2x text-primary mb-3"></i>
+                        <h3 class="h5">Secure Payment</h3>
+                        <p class="text-muted">Pay online with multiple payment options. All transactions secure.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">4</div>
+                        <i class="fas fa-concierge-bell fa-2x text-primary mb-3"></i>
+                        <h3 class="h5">Enjoy Your Meal</h3>
+                        <p class="text-muted">Your food will be delivered to your seat at the scheduled station.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PNR Section -->
+<section id="pnr" class="pnr-section py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg border-0 rounded-lg">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h3 class="mb-0"><i class="fas fa-ticket-alt me-2"></i>Order with Your PNR Number</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-center mb-4">Enter your 10-digit PNR to view your journey details and order food for upcoming stations</p>
+                        <form method="post" action="{% url 'orders:pnr_order' %}" class="needs-validation" novalidate>
+                            {% csrf_token %}
+                            <div class="row g-3">
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-lg" name="pnr_number" 
+                                           placeholder="Enter 10-digit PNR" required pattern="[0-9]{10}">
+                                    <div class="invalid-feedback">
+                                        Please enter a valid 10-digit PNR number.
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-primary btn-lg w-100">
+                                        <i class="fas fa-search me-2"></i>Find Journey
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="text-center mt-4">
+                            <p class="mb-3">Or choose another option:</p>
+                            <div class="d-flex justify-content-center gap-3">
+                                <a href="#" class="btn btn-outline-primary">
+                                    <i class="fas fa-train me-2"></i>By Train Number
+                                </a>
+                                <a href="#" class="btn btn-outline-primary">
+                                    <i class="fas fa-map-marker-alt me-2"></i>By Station
+                                </a>
+                                <a href="#" class="btn btn-outline-primary">
+                                    <i class="fas fa-route me-2"></i>By Route
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

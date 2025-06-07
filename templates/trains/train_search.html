@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Trains - TrainEats{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title mb-4">Search Trains</h2>
+                    <form method="get" action="{% url 'train_search' %}" class="mb-4">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="Enter train number or name..." value="{{ query }}">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+                    </form>
+
+                    {% if query %}
+                        <h3 class="mb-3">Search Results for "{{ query }}"</h3>
+                        {% if trains %}
+                            <div class="list-group">
+                                {% for train in trains %}
+                                    <a href="{% url 'train_detail' train.number %}" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">{{ train.name }}</h5>
+                                            <small class="text-muted">Train #{{ train.number }}</small>
+                                        </div>
+                                        <p class="mb-1">
+                                            <i class="fas fa-route"></i> {{ train.source.name }} → {{ train.destination.name }}
+                                        </p>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle"></i> No trains found matching your search.
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="text-center text-muted">
+                            <i class="fas fa-search fa-3x mb-3"></i>
+                            <p>Enter a train number or name to search</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

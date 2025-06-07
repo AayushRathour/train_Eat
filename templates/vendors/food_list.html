@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block title %}Food Menu{% endblock %}
+
+{% block extra_css %}
+<style>
+    .category-nav-wrapper {
+        position: sticky;
+        top: 10px;
+        z-index: 1000;
+        padding: 1rem 0;
+        margin-bottom: 2rem;
+    }
+    .category-nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+    }
+    .category-nav-item a {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50px;
+        background: linear-gradient(145deg, #4b6cb7, #182848); /* Using new theme color */
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 1rem;
+        text-align: center;
+        padding: 0.75rem 1.5rem;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+    .category-nav-item a:hover {
+        transform: translateY(-5px) scale(1.03);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        color: white;
+    }
+    .category-nav-item i {
+        margin-bottom: 0;
+        margin-right: 0.75rem;
+        font-size: 1.2rem;
+    }
+
+    .category-section {
+        scroll-margin-top: 150px; /* Adjust offset for the new nav height */
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-5">Our Food Menu</h1>
+
+    <div class="category-nav-wrapper">
+        <nav class="category-nav">
+            {% for category, foods in food_by_category.items %}
+            <div class="category-nav-item">
+                <a href="#category-{{ category.id }}">
+                    <i class="fas
+                    {% if category.name == 'North Indian' %} fa-pepper-hot
+                    {% elif category.name == 'South Indian' %} fa-seedling
+                    {% elif category.name == 'Desserts' %} fa-ice-cream
+                    {% elif category.name == 'Snacks' %} fa-cookie-bite
+                    {% else %} fa-utensils {% endif %}"></i>
+                    <span>{{ category.name }}</span>
+                </a>
+            </div>
+            {% endfor %}
+        </nav>
+    </div>
+
+    {% for category, foods in food_by_category.items %}
+    <div id="category-{{ category.id }}" class="category-section mb-5">
+        <h2 class="mb-4">{{ category.name }}</h2>
+        <p>{{ category.description }}</p>
+        <div class="row">
+            {% for food in foods %}
+            <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    {% if food.image %}
+                    <img src="{{ food.image.url }}" class="card-img-top" alt="{{ food.name }}" style="height: 200px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ food.name }}</h5>
+                        <p class="card-text">{{ food.description }}</p>
+                        <p class="card-text"><strong>Price:</strong> ₹{{ food.price }}</p>
+                        <p class="card-text"><strong>Vendor:</strong> {{ food.vendor.name }}</p>
+                        <div class="mt-auto">
+                            <a href="{% url 'vendors:food_detail' food.id %}" class="btn btn-info btn-sm">View Details</a>
+                            <a href="{% url 'orders:add_to_cart' food.id %}" class="btn btn-primary btn-sm">Add to Cart</a>
+                            <a href="{% url 'orders:add_and_checkout' food.id %}" class="btn btn-success btn-sm">Order Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% empty %}
+    <p class="text-center">No food items available at the moment.</p>
+    {% endfor %}
+</div>
+{% endblock %} 

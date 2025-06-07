@@ -1,0 +1,7 @@
+Django==5.0.2
+mysqlclient==2.2.4
+Pillow==10.2.0
+python-dotenv==1.0.1
+django-crispy-forms==2.1
+crispy-bootstrap5==2024.2
+setuptools==80.9.0 

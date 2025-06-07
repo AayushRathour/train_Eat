@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ food.name }} - Food Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{ food.image.url }}" class="img-fluid rounded shadow-sm" alt="{{ food.name }}">
+        </div>
+        <div class="col-md-6">
+            <h1 class="mb-3">{{ food.name }}</h1>
+            <p class="lead">{{ food.description }}</p>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <p class="h4 text-primary fw-bold">Price: ₹{{ food.price }}</p>
+                <span class="badge {% if food.is_vegetarian %}bg-success{% else %}bg-danger{% endif %}">
+                    {% if food.is_vegetarian %}Vegetarian{% else %}Non-Vegetarian{% endif %}
+                </span>
+            </div>
+
+            <ul class="list-group list-group-flush mb-4">
+                <li class="list-group-item">
+                    <strong>Category:</strong> {{ food.category.name }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Sold by:</strong> <a href="{% url 'vendors:vendor_detail' food.vendor.id %}">{{ food.vendor.name }}</a>
+                </li>
+                <li class="list-group-item">
+                    <strong>Preparation Time:</strong> Approximately {{ food.preparation_time }} minutes
+                </li>
+                 <li class="list-group-item">
+                    <strong>Availability:</strong> {% if food.is_available %}<span class="text-success">Available</span>{% else %}<span class="text-danger">Not Available</span>{% endif %}
+                </li>
+            </ul>
+
+            <div class="d-grid gap-2">
+                <a href="{% url 'orders:add_to_cart' food.id %}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                </a>
+                <a href="{% url 'orders:add_and_checkout' food.id %}" class="btn btn-success btn-lg">
+                    <i class="fas fa-bolt me-2"></i>Order Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
