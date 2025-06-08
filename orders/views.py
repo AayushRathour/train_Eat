@@ -4,7 +4,7 @@ from django.contrib import messages
 from .models import Order, OrderItem, PNROrder, Cart, CartItem
 from vendors.models import FoodItem
 from .forms import PNROrderForm, TrackOrderForm, CheckoutForm
-from trains.models import Station, Platform
+from trains.models import Station, Platform, Train
 import uuid
 from django.conf import settings
 from django.utils import timezone
@@ -105,13 +105,35 @@ def checkout(request):
         form = CheckoutForm(request.POST)
         if form.is_valid():
             with transaction.atomic():
+                # Extract data from the form
+                pnr_number = form.cleaned_data['pnr_number']
+                mobile_number = form.cleaned_data['mobile_number']
                 station_name = form.cleaned_data['delivery_station_name']
+                
+                # Store PNR and mobile in session to pass to the payment view
+                request.session['pnr_number'] = pnr_number
+                request.session['mobile_number'] = mobile_number
+
+                # Get or create placeholder stations for the train
+                source_station, _ = Station.objects.get_or_create(name="Placeholder Source", defaults={'code': "PSRC"})
+                dest_station, _ = Station.objects.get_or_create(name="Placeholder Destination", defaults={'code': "PDEST"})
+
+                # Get or create the train and station
+                # This is a placeholder for actual train lookup logic
+                train, _ = Train.objects.get_or_create(
+                    number=pnr_number[-5:],  # Using last 5 digits of PNR as a mock train number
+                    defaults={
+                        'name': f"Train {pnr_number[-5:]}",
+                        'source': source_station,
+                        'destination': dest_station
+                    }
+                )
                 station, _ = Station.objects.get_or_create(name=station_name, defaults={'code': station_name[:4].upper()})
                 platform, _ = Platform.objects.get_or_create(station=station, number='1') # Placeholder platform
 
                 order = Order.objects.create(
                     user=request.user,
-                    train_id=1,  # Placeholder, should be linked to PNR info
+                    train=train,  # Assign the train object
                     delivery_station=station,
                     delivery_platform=platform,
                     order_number=str(uuid.uuid4())[:8].upper(),
@@ -132,8 +154,11 @@ def checkout(request):
                 # Clear the cart
                 cart.items.all().delete()
                 
-                # Redirect to a simple confirmation page instead of payment
-                return redirect('orders:order_confirmation', order_number=order.order_number)
+                # Store order ID in session for the payment app
+                request.session['order_id'] = order.id
+                
+                # Redirect to the payment process
+                return redirect('payment:process')
     else:
         form = CheckoutForm()
 
@@ -201,27 +226,3 @@ def pnr_order(request):
 def pnr_order_list(request):
     orders = PNROrder.objects.filter(user=request.user)
     return render(request, 'orders/pnr_order_list.html', {'orders': orders})
-
-def track_order_page(request):
-    """
-    Displays a form to track an order and shows the result.
-    """
-    order = None
-    form = TrackOrderForm(request.POST or None)
-
-    if request.method == 'POST' and form.is_valid():
-        order_number = form.cleaned_data['order_number']
-        phone_number = form.cleaned_data['phone_number']
-        
-        try:
-            order = Order.objects.select_related('user').get(
-                order_number__iexact=order_number,
-                user__phone_number=phone_number
-            )
-        except Order.DoesNotExist:
-            messages.error(request, 'No order found with the provided details. Please check and try again.')
-
-    return render(request, 'orders/track_order_page.html', {
-        'form': form,
-        'order': order
-    })

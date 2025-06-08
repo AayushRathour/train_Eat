@@ -28,5 +28,7 @@ class TrackOrderForm(forms.Form):
     order_number = forms.CharField(max_length=20, label="Order Number")
 
 class CheckoutForm(forms.Form):
-    delivery_station_name = forms.CharField(max_length=100, label="Delivery Station")
+    pnr_number = forms.CharField(max_length=10, label="PNR Number")
+    mobile_number = forms.CharField(max_length=15, label="Mobile Number")
+    delivery_station_name = forms.CharField(max_length=100, label="Station of Food Delivery")
     special_instructions = forms.CharField(widget=forms.Textarea, required=False) 

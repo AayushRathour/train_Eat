@@ -34,11 +34,11 @@
                             <p><strong>Payment Status:</strong> {{ order.get_payment_status_display }}</p>
                             
                             <div class="mt-3">
-                                <a href="{% url 'order_detail' order.order_number %}" class="btn btn-primary">
+                                <a href="{% url 'orders:order_detail' order.order_number %}" class="btn btn-primary">
                                     <i class="fas fa-eye"></i> View Details
                                 </a>
                                 {% if order.status == 'PENDING' %}
-                                    <a href="{% url 'cancel_order' order.order_number %}" class="btn btn-danger">
+                                    <a href="{% url 'orders:cancel_order' order.order_number %}" class="btn btn-danger">
                                         <i class="fas fa-times"></i> Cancel Order
                                     </a>
                                 {% endif %}
@@ -54,7 +54,7 @@
     {% else %}
         <div class="alert alert-info">
             <i class="fas fa-info-circle"></i> You haven't placed any orders yet.
-            <a href="{% url 'vendors' %}" class="alert-link">Browse our vendors</a> to place your first order!
+            <a href="{% url 'vendors:food_list' %}" class="alert-link">Browse our vendors</a> to place your first order!
         </div>
     {% endif %}
 </div>

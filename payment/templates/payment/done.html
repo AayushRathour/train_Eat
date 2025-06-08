@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Payment Successful{% endblock %}
+
+{% block content %}
+<div class="container py-5 text-center">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <i class="fas fa-check-circle fa-5x text-success mb-4"></i>
+                    <h1 class="card-title">Payment Successful!</h1>
+                    <p class="text-muted">Thank you for your payment. Your order is being processed.</p>
+                    <a href="{% url 'orders:order_list' %}" class="btn btn-primary mt-3">
+                        <i class="fas fa-list me-2"></i>View Your Orders
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
