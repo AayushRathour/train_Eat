@@ -45,7 +45,7 @@ class FoodCategory(models.Model):
 
 class FoodItem(models.Model):
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE, related_name='food_items')
-    category = models.ForeignKey(FoodCategory, on_delete=models.CASCADE)
+    category = models.ForeignKey(FoodCategory, on_delete=models.CASCADE, related_name='food_items')
     name = models.CharField(max_length=100)
     description = models.TextField()
     price = models.DecimalField(
@@ -54,13 +54,15 @@ class FoodItem(models.Model):
         validators=[MinValueValidator(0.01)]
     )
     image = models.ImageField(
-        upload_to='food_items/',
+        upload_to='food_images/',
         validators=[
             RegexValidator(
                 regex=r'^[a-zA-Z0-9_-]+\.(jpg|jpeg|png|gif)$',
                 message=_("Only jpg, jpeg, png and gif files are allowed.")
             )
-        ]
+        ],
+        blank=True,
+        null=True
     )
     is_vegetarian = models.BooleanField(default=False)
     is_available = models.BooleanField(default=True)

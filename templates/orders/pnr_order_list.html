@@ -9,7 +9,7 @@
             <div class="card shadow-lg border-0 rounded-lg mt-5">
                 <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                     <h3 class="mb-0">My PNR Orders</h3>
-                    <a href="{% url 'pnr_order' %}" class="btn btn-light">
+                    <a href="{% url 'orders:pnr_order' %}" class="btn btn-light">
                         <i class="fas fa-plus me-2"></i>New PNR Order
                     </a>
                 </div>
@@ -57,7 +57,7 @@
                             <i class="fas fa-ticket-alt fa-3x text-muted mb-3"></i>
                             <h4>No PNR Orders Found</h4>
                             <p class="text-muted">You haven't created any PNR orders yet.</p>
-                            <a href="{% url 'pnr_order' %}" class="btn btn-primary mt-3">
+                            <a href="{% url 'orders:pnr_order' %}" class="btn btn-primary mt-3">
                                 <i class="fas fa-plus me-2"></i>Create New PNR Order
                             </a>
                         </div>

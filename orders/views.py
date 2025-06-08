@@ -188,12 +188,12 @@ def track_order(request, order_number):
 def cancel_order(request, order_number):
     """View to cancel an order."""
     order = get_object_or_404(Order, order_number=order_number, user=request.user)
-    if order.status == 'PENDING':
+    if order.status in ['PENDING', 'PREPARING']:
         order.status = 'CANCELLED'
         order.save()
         messages.success(request, 'Order cancelled successfully!')
     else:
-        messages.error(request, 'This order cannot be cancelled.')
+        messages.error(request, 'This order cannot be cancelled as it is already being delivered or has been completed.')
     return redirect('orders:order_list')
 
 @login_required

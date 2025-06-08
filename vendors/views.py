@@ -58,8 +58,8 @@ def category_detail(request, category_id):
 
 def food_list(request):
     """View to display a list of all food items, grouped by category."""
-    categories = FoodCategory.objects.prefetch_related('fooditem_set').all()
-    food_by_category = {category: category.fooditem_set.all() for category in categories if category.fooditem_set.exists()}
+    categories = FoodCategory.objects.prefetch_related('food_items').all()
+    food_by_category = {category: category.food_items.all() for category in categories if category.food_items.exists()}
     
     return render(request, 'vendors/food_list.html', {
         'food_by_category': food_by_category

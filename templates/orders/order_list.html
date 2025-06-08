@@ -37,7 +37,7 @@
                                 <a href="{% url 'orders:order_detail' order.order_number %}" class="btn btn-primary">
                                     <i class="fas fa-eye"></i> View Details
                                 </a>
-                                {% if order.status == 'PENDING' %}
+                                {% if order.status == 'PENDING' or order.status == 'PREPARING' %}
                                     <a href="{% url 'orders:cancel_order' order.order_number %}" class="btn btn-danger">
                                         <i class="fas fa-times"></i> Cancel Order
                                     </a>

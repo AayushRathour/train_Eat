@@ -40,4 +40,7 @@ urlpatterns = [
     path("vendors/", include("vendors.urls", namespace="vendors")),
     path("payment/", include("payment.urls", namespace="payment")),
     path("trains/", include("trains.urls")),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
